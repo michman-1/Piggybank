@@ -10,3 +10,7 @@ def connect(path="app.db"):
     conn.execute("INSERT OR IGNORE INTO settings (id, name, value) VALUES (1, 'window_selected', '1')")
     
     return conn
+
+def submit_transaction(conn, ammount, module_id, account_id, comment, date):
+    conn.execute("INSERT INTO transactions (ammount, module_id, account_id, comment, date) VALUES (?, ?, ?, ?, ?)", (ammount, module_id, account_id, comment, date))
+    conn.commit()

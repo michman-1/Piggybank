@@ -11,7 +11,7 @@ class MainWindow(ctk.CTk):
         self.conn = conn
 
         
-        self.left_frame = Left_Frame(self)
+        self.left_frame = Left_Frame(self, conn)
         self.left_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
 
     def on_close(self):
