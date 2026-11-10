@@ -57,6 +57,9 @@ class Left_Frame(ctk.CTkFrame):
         if cents <= 0:
             self.showError("Please enter a positive amount.")
             return
+        if not self.FormField1_entry.get().__contains___(",") and not self.FormField1_entry.get().__contains___("."):
+            cents *= 100    # If the user ignored the decimal point, treat as whole currency units
+            return
 
         module_id = self.modules[self.FormField2_optionmenu.get()]
         account_id = self.accounts[self.FormField3_optionmenu.get()]
