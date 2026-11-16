@@ -13,4 +13,7 @@ def connect(path="app.db"):
 
 def submit_transaction(conn, ammount, module_id, account_id, comment, date):
     conn.execute("INSERT INTO transactions (ammount, module_id, account_id, comment, date) VALUES (?, ?, ?, ?, ?)", (ammount, module_id, account_id, comment, date))
+    conn.execute("UPDATE module SET sum = sum + ? WHERE id = ?", (ammount, module_id))
+    conn.execute("UPDATE account SET sum = sum + ? WHERE id = ?", (ammount, account_id))
     conn.commit()
+    print(f"Transaction submitted: {ammount} to module {module_id} from account {account_id} with comment '{comment}' on {date}")

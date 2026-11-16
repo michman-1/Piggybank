@@ -1,5 +1,6 @@
 from decimal import Decimal, InvalidOperation
 from datetime import datetime
+from tkinter import messagebox
 
 import customtkinter as ctk
 
@@ -52,15 +53,16 @@ class Left_Segment(Frame):
         self.SubmitDeposit_button.grid(row=11, column=1, padx=20, pady=10, sticky="s")
 
     def submit_transaction(self, sign):
+        raw = self.FormField1_entry.get().strip().replace(",", ".")
         try:
-            cents = round(Decimal(self.FormField1_entry.get().replace(",", ".")) * 100)
+            cents = round(Decimal(raw) * 100)
         except InvalidOperation:
-            self.showError("Invalid input. Please enter a valid number.")
+            messagebox.showerror("Error", "Invalid input. Please enter a valid number.")
             return
         if cents <= 0:
-            self.showError("Please enter a positive amount.")
+            messagebox.showerror("Error", "Please enter a positive amount.")
             return
-        if not self.FormField1_entry.get().__contains__(",") and not self.FormField1_entry.get().__contains___("."):
+        if not self.FormField1_entry.get().__contains__(",") and not self.FormField1_entry.get().__contains__("."):
             cents *= 100    # If the user ignored the decimal point, treat as whole currency units
             return
 
@@ -72,6 +74,7 @@ class Left_Segment(Frame):
         db.submit_transaction(self.app.conn, sign * cents, module_id, account_id, comment, date)
         self.FormField1_entry.delete(0, "end")
         self.FormField4_entry.delete(0, "end")
+        self.app.event_generate("<<SumsChanged>>")
 
 class Right_Segment(Frame):
     def __init__(self, master, **kwargs):
@@ -96,7 +99,7 @@ class Right_Segment(Frame):
                 super().__init__(master, **kwargs)
                 self.grid_propagate(False)
 
-                self.module_select = ctk.CTkOptionMenu(self, values=list(self.app.modules) or ["No goals available"])
+                self.module_select = ctk.CTkOptionMenu(self, values=list(self.app.modules) or ["No goals available"],command=self.update_sum)
                 self.module_select.grid(row=0, column=0, padx=20, pady=10, sticky="nw")
                 self.Current_module = self.module_select.get()
 
@@ -104,6 +107,10 @@ class Right_Segment(Frame):
                 self.sum_label.grid(row=1, column=0, padx=20, pady=10, sticky="w")
                 self.sum = ctk.CTkLabel(self, text="")
                 self.sum.grid(row=2, column=0, padx=20, pady=10, sticky="w")
+                self.update_sum(self.module_select.get())
+                self.app.bind("<<SumsChanged>>", self.refresh, add="+")
+
+            def refresh(self, event=None):
                 self.update_sum(self.module_select.get())
 
             def update_sum(self, module_name):
