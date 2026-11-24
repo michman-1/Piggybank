@@ -3,7 +3,7 @@ A simple app for tracking and organizing your money saved for various purposes
 
 The idea for the app came from me loosing track of all of my savings that i "separated" in my mind for different goals and purposes, investments at different brokers etc.
 I wanted something more than an excel spreadsheet, which also gave me opportunity to develop my python coding skills.
-I'm trying to code everything myself, besides using intelisense and working on errors with AI/substack. The app is NOT vibecoded.
+I'm trying to code everything myself, besides using intelisense and working on errors with AI/stack overflow. The app is NOT vibecoded.
 
 The app aims to have such functionality as:
 - Creating and managing saving goals, funds, accounts.
