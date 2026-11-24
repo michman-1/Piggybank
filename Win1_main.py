@@ -62,10 +62,7 @@ class Left_Segment(Frame):
         if cents <= 0:
             messagebox.showerror("Error", "Please enter a positive amount.")
             return
-        if not self.FormField1_entry.get().__contains__(",") and not self.FormField1_entry.get().__contains__("."):
-            cents *= 100    # If the user ignored the decimal point, treat as whole currency units
-            return
-
+        
         module_id = self.app.modules[self.FormField2_optionmenu.get()]
         account_id = self.app.accounts[self.FormField3_optionmenu.get()]
         comment = self.FormField4_entry.get()
